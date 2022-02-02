@@ -47,8 +47,8 @@ jobs:
         creds: ${{ secrets.AZURE_RBAC_CREDENTIALS }}
         allow-no-subscriptions: true
 
-    # - name: 'Set subscription'
-    #   run: az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION }}
+    - name: 'Set subscription'
+      run: az account set --subscription 1d00f364-f62c-4896-a77d-e24d36e7d9c8
 
     - name: Setup node
       uses: actions/setup-node@v2
