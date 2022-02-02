@@ -1,0 +1,102 @@
+name: DEV - Tutorial Frontend Deploy
+on:
+  repository_dispatch:
+    types: [bokie-tutorial-cd-appservice-dev]
+  workflow_dispatch:
+    inputs:
+      env:
+        description: "Environment"
+        required: true
+        default: "dev"
+      ref:
+        description: "Repository branch or tag"
+        required: true
+        default: "develop"
+
+env:
+  AZURE_WEBAPP_PACKAGE_PATH: "."
+  REPOSITORY: "tarathep/bokie-tutorial-frontend"
+  # hook branch or tag
+  GITREF: ${{ github.event_name == 'repository_dispatch' && 'develop' || github.event.inputs.ref }}
+
+jobs:
+  build-and-deploy-app-service:
+    name: Build and Deploy
+    #runs-on: [self-hosted, example-dev]
+    runs-on: ubuntu-latest
+    environment: ${{ github.event_name == 'repository_dispatch' && 'dev' || github.event.inputs.env }}
+    steps:
+    - name: "Checkout pipelines"
+      uses: actions/checkout@v2
+      with:
+        path: .pipeline
+
+    - name: "Checkout project"
+      uses: actions/checkout@v2
+      with:
+        repository: ${{ env.REPOSITORY }}
+        ref: ${{ env.GITREF }}
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+
+    - name: "List working directory"
+      run: ls
+    
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_RBAC_CREDENTIALS }}
+        allow-no-subscriptions: true
+
+    - name: 'Set subscription'
+      run: az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION }}
+
+    - name: Setup node
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    
+    - name: "npm install, build, and test"
+      run: |
+        npm install   
+
+    # -- Version Manifest
+    - name: Set date to variable
+      id: date
+      run: echo "::set-output name=date::$(TZ='Asia/Bangkok' date +'%Y-%m-%d@%H:%M:%S')"
+
+    - name: Set Git SHA to variable
+      id: gitsha
+      run: echo "::set-output name=gitsha::$(git rev-parse HEAD)"
+
+    - name: Check file existence
+      id: check_files
+      uses: andstor/file-existence-action@v1
+      with:
+        files: "version-manifest.html"
+
+    - name: Replace Build Information in Version Manifest File
+      if: steps.check_files.outputs.files_exists == 'true'
+      uses: datamonsters/replace-action@master
+      with:
+        files: 'version-manifest.html'
+        replacements: '$BUILDTIME=${{ steps.date.outputs.date }},$RUNNER_NAME=${{ runner.name }},$GITHUB_REF=${{ env.GITREF }},$GITHUB_REPO=${{ env.REPOSITORY }},$GITHUB_SHA=${{ steps.gitsha.outputs.gitsha }},$GITHUB_WORKFLOW=${{ github.workflow }}#${{ github.run_number }}'
+    # -- Version Manifest
+
+    - name: "Deploy to Azure WebApp"
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ format('app-bokie-tutorial-frontend-{0}-001', 'dev') }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+  
+    - name: Set Web App Settings
+      uses: Azure/appservice-settings@v1
+      with:
+        app-name: ${{ format('app-bokie-tutorial-frontend-{0}-001', 'dev') }}
+        app-settings-json: |
+          [
+            {
+              "name": "PORT",
+              "value": "80",
+              "slotSetting": false
+            }
+          ]
