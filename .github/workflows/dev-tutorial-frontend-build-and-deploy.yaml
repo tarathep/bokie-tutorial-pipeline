@@ -45,19 +45,19 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_RBAC_CREDENTIALS }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION }}
+        allow-no-subscriptions: true
 
-    # - name: 'Set subscription'
-    #   run: az account set --subscription 1d00f364-f62c-4896-a77d-e24d36e7d9c8
+    - name: 'Set subscription'
+      run: az account set --subscription 1d00f364-f62c-4896-a77d-e24d36e7d9c8
            
-    - name: Setup node
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
+    # - name: Setup node
+    #   uses: actions/setup-node@v2
+    #   with:
+    #     node-version: '14'
     
-    - name: "Install Dependencies"
-      run: |
-        npm install   
+    # - name: "Install Dependencies"
+    #   run: |
+    #     npm install   
 
     # -- Version Manifest
     # - name: Set date to variable
@@ -82,6 +82,9 @@ jobs:
     #     replacements: '$BUILDTIME=${{ steps.date.outputs.date }},$RUNNER_NAME=${{ runner.name }},$GITHUB_REF=${{ env.GITREF }},$GITHUB_REPO=${{ env.REPOSITORY }},$GITHUB_SHA=${{ steps.gitsha.outputs.gitsha }},$GITHUB_WORKFLOW=${{ github.workflow }}#${{ github.run_number }}'
     # # -- Version Manifest
 
+
+# subscription-id: ${{ secrets.AZURE_SUBSCRIPTION }}
+  
     - name: "Deploy to Azure WebApp"
       uses: azure/webapps-deploy@v2
       with:
