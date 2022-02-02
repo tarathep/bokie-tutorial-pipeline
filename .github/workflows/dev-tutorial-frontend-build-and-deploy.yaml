@@ -45,6 +45,7 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_RBAC_CREDENTIALS }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION }}
 
     # - name: 'Set subscription'
     #   run: az account set --subscription 1d00f364-f62c-4896-a77d-e24d36e7d9c8
