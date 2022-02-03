@@ -16,8 +16,15 @@ on:
 env:
   AZURE_WEBAPP_PACKAGE_PATH: "./dist"
   REPOSITORY: "tarathep/bokie-tutorial-frontend"
+
+  APP_NAME: bokie-tutorial-frontend
+  CONTAINER_REPOSITORY: "acrbokietutorial001.azurecr.io"
+  IMAGE_TAG: "0.0.1-SNAPSHOT"
   # hook branch or tag
   GITREF: ${{ github.event_name == 'repository_dispatch' && 'develop' || github.event.inputs.ref }}
+
+  
+
 
 jobs:
   build-and-deploy-app-service:
@@ -50,50 +57,12 @@ jobs:
     - name: 'Set subscription'
       run: az account set --subscription 1d00f364-f62c-4896-a77d-e24d36e7d9c8
            
-    - name: Setup node
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-    
-    - name: "Install Dependencies & Build"
-      run: |
-        npm install
-        npm run build
-        cp web.config /dist
 
-
-
-    # -- Version Manifest
-    # - name: Set date to variable
-    #   id: date
-    #   run: echo "::set-output name=date::$(TZ='Asia/Bangkok' date +'%Y-%m-%d@%H:%M:%S')"
-
-    # - name: Set Git SHA to variable
-    #   id: gitsha
-    #   run: echo "::set-output name=gitsha::$(git rev-parse HEAD)"
-
-    # - name: Check file existence
-    #   id: check_files
-    #   uses: andstor/file-existence-action@v1
-    #   with:
-    #     files: "version-manifest.html"
-
-    # - name: Replace Build Information in Version Manifest File
-    #   if: steps.check_files.outputs.files_exists == 'true'
-    #   uses: datamonsters/replace-action@master
-    #   with:
-    #     files: 'version-manifest.html'
-    #     replacements: '$BUILDTIME=${{ steps.date.outputs.date }},$RUNNER_NAME=${{ runner.name }},$GITHUB_REF=${{ env.GITREF }},$GITHUB_REPO=${{ env.REPOSITORY }},$GITHUB_SHA=${{ steps.gitsha.outputs.gitsha }},$GITHUB_WORKFLOW=${{ github.workflow }}#${{ github.run_number }}'
-    # # -- Version Manifest
-
-
-# subscription-id: ${{ secrets.AZURE_SUBSCRIPTION }}
-  
     - name: "Deploy to Azure WebApp"
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ format('app-bokie-tutorial-frontend-{0}-001', 'dev') }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        images: '${{ env.CONTAINER_REPOSITORY }}/${{ env.APP_NAME }}:${{env.IMAGE_TAG}}
   
     - name: Set Web App Settings
       uses: Azure/appservice-settings@v1
