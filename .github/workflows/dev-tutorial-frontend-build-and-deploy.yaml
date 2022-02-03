@@ -70,11 +70,18 @@ jobs:
         app-settings-json: |
           [
             {
-              "name": "PORT",
-              "value": "80",
+              "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
+              "value": "=vjy6OdwIIw9g/Qvu0Di38jU2FSBQyo5",
+              "slotSetting": false
+            },
+            {
+              "name": "DOCKER_REGISTRY_SERVER_URL",
+              "value": "https://acrbokietutorial001.azurecr.io",
+              "slotSetting": false
+            },
+            {
+              "name": "DOCKER_REGISTRY_SERVER_USERNAME",
+              "value": "acrbokietutorial001",
               "slotSetting": false
             }
           ]
-
-
-    
