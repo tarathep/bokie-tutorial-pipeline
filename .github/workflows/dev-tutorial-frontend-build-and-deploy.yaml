@@ -70,18 +70,8 @@ jobs:
         app-settings-json: |
           [
             {
-              "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
-              "value": "=vjy6OdwIIw9g/Qvu0Di38jU2FSBQyo5",
-              "slotSetting": false
-            },
-            {
-              "name": "DOCKER_REGISTRY_SERVER_URL",
-              "value": "https://acrbokietutorial001.azurecr.io",
-              "slotSetting": false
-            },
-            {
-              "name": "DOCKER_REGISTRY_SERVER_USERNAME",
-              "value": "acrbokietutorial001",
+              "name": "VUE_APP_ENPOINT_API_BACKEND",
+              "value": "https://app-bokie-tutorial-backend-dev-001.azurewebsites.net/api/tutorials",
               "slotSetting": false
             }
           ]
