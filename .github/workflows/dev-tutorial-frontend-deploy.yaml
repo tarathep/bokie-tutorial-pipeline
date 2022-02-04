@@ -3,15 +3,7 @@ on:
   repository_dispatch:
     types: [bokie-tutorial-frontend-cd-dev]
   workflow_dispatch:
-    inputs:
-      env:
-        description: "Environment"
-        required: true
-        default: "dev"
-      ref:
-        description: "Repository branch or tag"
-        required: true
-        default: "develop"
+
 
 env:
   REPOSITORY: "tarathep/bokie-tutorial-frontend"
@@ -19,33 +11,17 @@ env:
   AZURE_WEB_APP_NAME: app-bokie-tutorial-frontend-dev-001
   CONTAINER_REPOSITORY: "acrbokietutorial001.azurecr.io"
   IMAGE_TAG: "0.0.1-SNAPSHOT"
-  GITREF: ${{ github.event_name == 'repository_dispatch' && 'develop' || github.event.inputs.ref }}
-
-  
-
 
 jobs:
   build-and-deploy-app-service:
     name: Build and Deploy
     #runs-on: [self-hosted, example-dev]
     runs-on: ubuntu-latest
-    environment: ${{ github.event_name == 'repository_dispatch' && 'dev' || github.event.inputs.env }}
+    environment: dev
     steps:
     - name: "Checkout pipelines"
       uses: actions/checkout@v2
-      with:
-        path: .pipeline
 
-    - name: "Checkout project"
-      uses: actions/checkout@v2
-      with:
-        repository: ${{ env.REPOSITORY }}
-        ref: ${{ env.GITREF }}
-        token: ${{ secrets.REPO_ACCESS_TOKEN }}
-
-    - name: "List working directory"
-      run: ls
-    
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
