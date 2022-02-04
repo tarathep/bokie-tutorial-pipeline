@@ -47,8 +47,13 @@ jobs:
         app-settings-json: |
           [
             {
-              "name": "VUE_APP_ENPOINT_API_BACKEND",
-              "value": "https://app-bokie-tutorial-backend-dev-001.azurewebsites.net/api/tutorials",
+              "name": "MONGODB_CONNECTION_STRING",
+              "value": "mongodb://cosmos-bokie-tutorial-001:uMJz5wAWAGZBYwUKHqGumXRqKM2Uwyccz3xloWDSgbDRbL9mfEUFxhkWYRMWYs0qb6HUVCHqOJWBYnzoXvVjeg==@cosmos-bokie-tutorial-001.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@cosmos-bokie-tutorial-001@",
+              "slotSetting": false
+            },
+            {
+              "name": "PORT",
+              "value": "80",
               "slotSetting": false
             }
           ]
