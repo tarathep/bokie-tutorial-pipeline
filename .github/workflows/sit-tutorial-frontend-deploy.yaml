@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       ref:
-        description: "Repository Tag"
+        description: "Image Tag"
         required: true
         default: "0.0.1"
 
