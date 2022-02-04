@@ -57,7 +57,7 @@ jobs:
     - name: "Deploy to Azure WebApp"
       uses: azure/webapps-deploy@v2
       with:
-        app-name: ${{ format('app-bokie-tutorial-frontend-{0}-001', 'dev') }}
+        app-name: app-bokie-tutorial-frontend-dev-001
         images: '${{ env.CONTAINER_REPOSITORY }}/${{ env.APP_NAME }}:${{env.IMAGE_TAG}}'
 
     - name: Set Web App Settings
