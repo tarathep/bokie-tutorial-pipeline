@@ -48,7 +48,7 @@ jobs:
           [
             {
               "name": "VUE_APP_ENPOINT_API_BACKEND",
-              "value": "https://app-bokie-tutorial-backend-dev-001.azurewebsites.net/api/tutorials",
+              "value": "https://app-bokie-tutorial-backend-sit-001.azurewebsites.net/api",
               "slotSetting": false
             }
           ]
