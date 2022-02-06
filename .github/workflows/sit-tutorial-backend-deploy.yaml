@@ -48,7 +48,7 @@ jobs:
           [
             {
               "name": "MONGODB_CONNECTION_STRING",
-              "value": "mongodb://cosmos-bokie-tutorial-001:uMJz5wAWAGZBYwUKHqGumXRqKM2Uwyccz3xloWDSgbDRbL9mfEUFxhkWYRMWYs0qb6HUVCHqOJWBYnzoXvVjeg==@cosmos-bokie-tutorial-001.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@cosmos-bokie-tutorial-001@",
+              "value": "mongodb://cosmos-bokie-tutorial-001:DVkuAa5XcLbTkOhsMzrZL9xt2cZkg7nvwnSEQCFpRXHDKO5lQcspPPE1f15u7mBPTxOw7UotPrGQ1GYq4RSliQ==@cosmos-bokie-tutorial-001.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@cosmos-bokie-tutorial-001@",
               "slotSetting": false
             },
             {
